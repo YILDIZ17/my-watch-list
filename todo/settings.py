@@ -122,5 +122,11 @@ STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
+ 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Version de l'application
+VERSION = '2.1.0'
+
+# Clé API TMDB
+TMDB_API_KEY = '82c77bb55ef296b2ad86b578d7ce1759'

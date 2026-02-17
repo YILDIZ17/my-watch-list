@@ -1,73 +1,273 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="My Watch List - Gérez votre liste de séries à regarder">
+	<title>My Watch List</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <style>
-
-	body{
+	body {
 		background-color: #3a86ff;
 	}
 
-	input{
-		width: 100%;
-		padding: 12px 20px;
-		margin: 8px 0;
-		box-sizing: border-box;
-	}
-
-	input::placeholder {
-	  color: #d3d3d3;
-	}
-
-	.submit{
-		background-color: #6BA3E8;
-	}
-
-	.center-column{
-		width:600px;
+	.center-column {
+		width: 600px;
 		margin: 20px auto;
-		padding:20px;
+		padding: 20px;
 		background-color: #fff;
 		border-radius: 3px;
 		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
 	}
 
-	.item-row{
-		background-color: #8338ec;
+	.btn-info {
+		background-color: #0056b3;
+		border-color: #004085;
+		color: #fff;
+	}
+
+	.btn-info:hover {
+		background-color: #004085;
+		border-color: #004085;
+		color: #fff;
+	}
+
+	.import-section {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin: 20px 0;
+	}
+
+	.btn-netflix {
+		background-color: #e50914;
+		border-color: #b0060f;
+		color: #fff;
+	}
+
+	.btn-netflix:hover {
+		background-color: #b0060f;
+		color: #fff;
+	}
+
+	.btn-amazon {
+		background-color: #00a8e1;
+		border-color: #0088b5;
+		color: #fff;
+	}
+
+	.btn-amazon:hover {
+		background-color: #0088b5;
+		color: #fff;
+	}
+
+	.btn-apple {
+		background-color: #8e44ad;
+		border-color: #6d3290;
+		color: #fff;
+	}
+
+	.btn-apple:hover {
+		background-color: #6d3290;
+		color: #fff;
+	}
+
+	.series-card {
 		margin: 10px;
 		padding: 20px;
 		border-radius: 3px;
 		color: #fff;
 		font-size: 16px;
+		display: flex;
+		align-items: center;
+		gap: 15px;
 		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
+		transition: transform 0.2s;
+		cursor: pointer;
+		text-decoration: none;
 	}
 
-	.btn-danger{
-		background-color: #ffbe0b;
-		border-color: #e59400;
+	.series-netflix {
+		background-color: #e50914;
 	}
 
+	.series-amazon {
+		background-color: #00a8e1;
+	}
+
+	.series-apple {
+		background-color: #8e44ad;
+	}
+
+	.series-manual {
+		background-color: #5a1fb3;
+	}
+
+	.series-card:hover {
+		transform: scale(1.01);
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.series-poster {
+		width: 80px;
+		height: 120px;
+		border-radius: 3px;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	.series-poster-placeholder {
+		width: 80px;
+		height: 120px;
+		border-radius: 3px;
+		background-color: rgba(255,255,255,0.2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: rgba(255,255,255,0.7);
+		font-size: 12px;
+		flex-shrink: 0;
+	}
+
+	.series-info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.series-title {
+		font-size: 18px;
+		font-weight: bold;
+		margin-bottom: 4px;
+	}
+
+	.series-overview {
+		font-size: 13px;
+		color: rgba(255,255,255,0.9);
+		margin-bottom: 6px;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.series-meta {
+		font-size: 12px;
+		color: rgba(255,255,255,0.85);
+	}
+
+	.series-meta .badge {
+		font-size: 11px;
+		margin-right: 5px;
+	}
+
+	.series-watched {
+		opacity: 0.8;
+	}
+
+	.series-watched .series-title {
+		text-decoration: line-through;
+	}
+
+	.alert {
+		margin: 10px 0;
+		border-radius: 3px;
+	}
+
+	.stats {
+		text-align: center;
+		color: #333;
+		font-size: 14px;
+		margin: 10px 0;
+	}
 </style>
-<h1 style="text-align: center; color: #fb5607; font-size: 125px;        text-shadow: -10px 0 black, 0 10px black, 10px 0 black, 0 -10px black;
+</head>
+<body>
+<main>
+	<h1 style="text-align: center; color: #fb5607; font-size: 125px; text-shadow: -10px 0 black, 0 10px black, 10px 0 black, 0 -10px black;">MY WATCH LIST</h1>
 
-"><b>TO DO LIST</b></h1>
-<div  class="center-column">
-	<form method="POST" action="/">
-		{% csrf_token %}
-		{{form.title}}
-		<input class="btn btn-info" type="submit" name="Create Task">
-	</form>
-
-	<div class="todo-list">
-	{% for task in tasks %}
-		<div class="item-row">
-			<a class="btn btn-sm btn-info" href = "{% url 'update_task' task.id %}">Update</a>
-			<a class="btn btn-sm btn-danger" href = "{% url 'delete' task.id %}">Delete</a>
-			{% if task.complete == True %}
-			<strike>{{task}}</strike>
-			{% else %}
-			<span>{{task}}</span>
-			{% endif %}
-
+	<div class="center-column">
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-{{ message.tags }}" role="alert">
+			{{ message }}
 		</div>
-	{% endfor %}
+		{% endfor %}
+		{% endif %}
+
+		<div class="import-section">
+			<form method="POST" action="{% url 'import_series' 'netflix' %}" style="display:inline;">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-netflix">
+					Ajouter 10 séries Netflix à ma watchlist
+				</button>
+			</form>
+			<form method="POST" action="{% url 'import_series' 'amazon' %}" style="display:inline;">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-amazon">
+					Ajouter 10 séries Amazon Prime à ma watchlist
+				</button>
+			</form>
+			<form method="POST" action="{% url 'import_series' 'apple' %}" style="display:inline;">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-apple">
+					Ajouter 10 séries Apple TV+ à ma watchlist
+				</button>
+			</form>
+		</div>
+
+		<div style="text-align: center; margin-bottom: 10px;">
+			<form method="POST" action="{% url 'clear_watchlist' %}" style="display:inline;">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-danger">
+					Vider toute la watchlist
+				</button>
+			</form>
+		</div>
+
+		<div class="stats">
+			{{ series_list|length }} série{{ series_list|length|pluralize }} dans la watchlist
+		</div>
+
+		<div class="series-list" role="list" aria-label="Liste des séries">
+		{% for series in series_list %}
+			<a class="series-card
+					  {% if series.provider == 'netflix' %}series-netflix{% elif series.provider == 'amazon' %}series-amazon{% elif series.provider == 'apple' %}series-apple{% else %}series-manual{% endif %}
+					  {% if series.watched %}series-watched{% endif %}"
+			   href="{% url 'detail' series.id %}"
+			   role="listitem"
+			   aria-label="Voir les détails de {{ series.title }}">
+				{% if series.poster_url %}
+				<img class="series-poster" src="{{ series.poster_url }}" alt="Affiche de {{ series.title }}">
+				{% else %}
+				<div class="series-poster-placeholder">N/A</div>
+				{% endif %}
+
+				<div class="series-info">
+					<div class="series-title">{{ series.title }}</div>
+					{% if series.overview %}
+					<div class="series-overview">{{ series.overview }}</div>
+					{% endif %}
+					<div class="series-meta">
+						{% if series.vote_average %}
+						<span class="badge badge-warning">{{ series.vote_average }}/10</span>
+						{% endif %}
+						<span class="badge badge-secondary">{{ series.get_provider_display }}</span>
+						{% if series.watched %}
+						<span class="badge badge-success">Vue</span>
+						{% endif %}
+					</div>
+				</div>
+			</a>
+		{% empty %}
+			<p style="text-align:center; color:#666; margin-top:20px;">Aucune série dans la watchlist. Ajoutez-en une !</p>
+		{% endfor %}
+		</div>
+
+		<p style="margin-top: 10px; font-size: 12px; color: #666; text-align: right;">Version : {{ version }}</p>
 	</div>
-</div>
+</main>
+</body>
+</html>

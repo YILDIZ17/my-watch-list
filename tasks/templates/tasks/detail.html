@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ series.title }} - My Watch List</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+	body {
+		background-color: #3a86ff;
+		color: #333;
+	}
+
+	.center-column {
+		width: 600px;
+		margin: 20px auto;
+		padding: 20px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+	}
+
+	.detail-header {
+		display: flex;
+		gap: 25px;
+		padding: 0 0 20px;
+		border-bottom: 1px solid #eee;
+		margin-bottom: 20px;
+	}
+
+	.detail-poster {
+		width: 180px;
+		min-height: 270px;
+		border-radius: 3px;
+		object-fit: cover;
+		flex-shrink: 0;
+		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
+	}
+
+	.detail-poster-placeholder {
+		width: 180px;
+		min-height: 270px;
+		border-radius: 3px;
+		background-color: #5a1fb3;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: rgba(255,255,255,0.8);
+		font-size: 14px;
+		flex-shrink: 0;
+	}
+
+	.detail-info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.detail-title {
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 12px;
+		color: #333;
+	}
+
+	.detail-badges {
+		margin-bottom: 15px;
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	.detail-badges .badge {
+		font-size: 13px;
+		padding: 6px 12px;
+	}
+
+	.detail-overview {
+		font-size: 15px;
+		color: #555;
+		line-height: 1.6;
+	}
+
+	.detail-actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.btn-info, .btn-back {
+		background-color: #0056b3;
+		border-color: #004085;
+		color: #fff;
+	}
+
+	.btn-info:hover, .btn-back:hover {
+		background-color: #004085;
+		border-color: #004085;
+		color: #fff;
+	}
+
+	.btn-watched {
+		background-color: #28a745;
+		border-color: #1e7e34;
+		color: #fff;
+	}
+
+	.btn-watched:hover {
+		background-color: #1e7e34;
+		color: #fff;
+	}
+
+	.btn-unwatched {
+		background-color: #ffc107;
+		border-color: #d39e00;
+		color: #000;
+	}
+
+	.btn-unwatched:hover {
+		background-color: #d39e00;
+		color: #000;
+	}
+
+	.btn-danger, .btn-delete {
+		background-color: #8b5a00;
+		border-color: #6b4400;
+		color: #fff;
+	}
+
+	.btn-danger:hover, .btn-delete:hover {
+		background-color: #6b4400;
+		border-color: #6b4400;
+		color: #fff;
+	}
+
+	.watched-banner {
+		background-color: #5a1fb3;
+		color: #fff;
+		text-align: center;
+		padding: 8px;
+		font-weight: bold;
+		font-size: 14px;
+		margin: -20px -20px 20px -20px;
+		border-radius: 3px 3px 0 0;
+	}
+</style>
+</head>
+<body>
+	<div class="center-column">
+		{% if series.watched %}
+		<div class="watched-banner">Vue</div>
+		{% endif %}
+
+		<div class="detail-header">
+			{% if series.poster_url %}
+			<img class="detail-poster" src="{{ series.poster_url }}" alt="Affiche de {{ series.title }}">
+			{% else %}
+			<div class="detail-poster-placeholder">Pas d'affiche</div>
+			{% endif %}
+
+			<div class="detail-info">
+				<div class="detail-title">{{ series.title }}</div>
+
+				<div class="detail-badges">
+					{% if series.vote_average %}
+					<span class="badge badge-warning">{{ series.vote_average }} / 10</span>
+					{% endif %}
+					<span class="badge badge-secondary">{{ series.get_provider_display }}</span>
+				</div>
+
+				{% if series.overview %}
+				<div class="detail-overview">{{ series.overview }}</div>
+				{% else %}
+				<div class="detail-overview" style="color:#999;">Aucun synopsis disponible.</div>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="detail-actions">
+			<a href="{% url 'list' %}" class="btn btn-info">Retour</a>
+
+			<form method="POST" action="{% url 'toggle_watched' series.id %}" style="display:inline;">
+				{% csrf_token %}
+				{% if series.watched %}
+				<button type="submit" class="btn btn-unwatched">Marquer comme non vue</button>
+				{% else %}
+				<button type="submit" class="btn btn-watched">Marquer comme vue</button>
+				{% endif %}
+			</form>
+
+			<a href="{% url 'delete' series.id %}" class="btn btn-danger">Supprimer</a>
+		</div>
+	</div>
+</body>
+</html>
+

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=8e&h2naz6*na6mne4y8l1m@rr=(igde^7rz2cmal)r_o)raoo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -126,7 +126,28 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Version de l'application
-VERSION = '2.1.0'
+VERSION = '2.2.0'
 
 # Clé API TMDB
 TMDB_API_KEY = '82c77bb55ef296b2ad86b578d7ce1759'
+
+# Auth configuration
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'list'
+LOGOUT_REDIRECT_URL = 'login'
+
+# France Connect (API v1 - intégration)
+# Clé d'intégration : https://partenaires.franceconnect.gouv.fr/fcp/fournisseur-service
+# Callbacks autorisés : localhost 3000, 8080, 4242, 1337. On utilise 3000 (8080 est souvent pris par Apache).
+# Lancer Django sur le port 3000 : pipenv run python manage.py runserver 3000
+# Puis ouvrir http://localhost:3000/
+FRANCE_CONNECT_BASE_URL = 'https://fcp.integ01.dev-franceconnect.fr'
+FRANCE_CONNECT_CLIENT_ID = '211286433e39cce01db448d80181bdfd005554b19cd51b3fe7943f6b3b86ab6e'
+FRANCE_CONNECT_CLIENT_SECRET = '2791a731e6a59f56b6b4dd0d08c9b1f593b5f3658b9fd731cb24248e2669af4b'
+FRANCE_CONNECT_REDIRECT_URI = 'http://localhost:3000/callback/'
+
+# Google OAuth2
+# Configurer l'URI de redirection dans Google Cloud Console : http://localhost:3000/google-callback/
+GOOGLE_CLIENT_ID = '911298525524-j2vpiv7sviho5oq45lqi1frdht8fcn2u.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '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'
+GOOGLE_REDIRECT_URI = 'http://localhost:3000/google-callback/'
